@@ -1,0 +1,1576 @@
+<htmlform formUuid="be69b3f3-143c-4d97-a574-c00586bccec7" formName="Medical Visit Note"
+          description="Medical Visit Note" formEncounterType="968789ca-e9c4-492f-b1dc-101fd1aa2026" formVersion="1.0">
+
+    <!--Constants used in the form-->
+    <macros>
+        <macro key="htmlFormIdKey" value="17" />
+        <macro key="notDoneConceptId" value="166089" />
+        <macro key="maxNumOfMedicationEntry" value="10" />
+        <macro key="maxNumOfDetailsEntry" value="5" />
+    </macros>
+    <!--Post export need to verify below concepts
+        1)In inARelHivIntakeSpanId span - Encounter type(CFL HIV Visit)/In a relationship?/Disclosed?/Sero concept uuid
+        2)In amtOfMedicationRefSpanId span - Encounter type(Visit Note)/Amount of medication provided concept uuid
+        3)In ifMode mode="EDIT" - $fn.latestEncounter('<Encounter type>')
+        4)In Macros - verify htmlFormIdKey, notDoneConceptId
+    -->
+
+    <style type="text/css">
+        /** HTML Forms default styles **/
+        #htmlform {
+            font-family: CircularStd;
+            display: flex;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        #htmlform htmlform {
+            width: 100%;
+        }
+
+        #htmlform htmlform h2 {
+            color: #333333;
+        }
+
+        #htmlform htmlform h1, h3, h4, h5, h6 {
+            color: inherit !important;
+        }
+
+        #htmlform htmlform input,
+        #htmlform htmlform label {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #htmlform htmlform table {
+            margin: 10px 0;
+        }
+
+        #htmlform htmlform table tr {
+            padding: 5px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+        }
+
+        #htmlform htmlform table td {
+            background-color: white !important;
+            cursor: default;
+            padding: 20px 0;
+        }
+
+        #htmlform htmlform table td[style*="display: none;"] {
+            display: table-cell !important;
+        }
+
+        #htmlform htmlform table td[style*="display: none;"] * {
+            display: none;
+        }
+
+        #htmlform htmlform .section {
+            border: none;
+        }
+
+        #htmlform htmlform input,
+        #htmlform htmlform select,
+        #htmlform htmlform textarea,
+        #htmlform htmlform ul.select {
+            background-color: white;
+        }
+
+        #htmlform htmlform button,
+        #htmlform htmlform input[type='button'] {
+            font-family: CircularStd;
+            font-size: 11px !important;
+            color: white;
+            text-transform: uppercase;
+            border: 1px solid #6c757d !important;
+            padding: 0.5rem 1.25rem !important;
+            margin-right: 0.75rem !important;
+            border-radius: 4px !important;
+            line-height: 1.5;
+        }
+
+        #htmlform htmlform button.confirm,
+        #htmlform htmlform input.confirm {
+            background: #00455c;
+            border: 1px solid #6c757d !important;
+            font-size: 11px !important;
+            color: white !important;
+        }
+
+        #htmlform htmlform button.cancel,
+        #htmlform htmlform input.cancel {
+            background: none !important;
+            border: 1px solid #00455c !important;
+            color: #00455c !important;
+        }
+
+        ul.ui-autocomplete {
+            border-radius: 0;
+        }
+
+        ul.ui-autocomplete li.ui-menu-item a {
+            border-radius: 0;
+            border: none;
+            margin: -1px;
+        }
+
+        ul.ui-autocomplete li.ui-menu-item a.ui-state-focus,
+        ul.ui-autocomplete li.ui-menu-item a.ui-state-hover {
+            background: #e4e7e7 !important;
+        }
+
+        #htmlform htmlform input,
+        #htmlform htmlform select {
+            color: inherit !important;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+        }
+
+        #htmlform htmlform input:focus,
+        #htmlform htmlform select:focus {
+            outline: none !important;
+            border: 1px solid #AEC2D5 !important;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+        }
+
+        #ui-datepicker-div {
+            color: #2B3640;
+        }
+
+        #ui-datepicker-div .ui-datepicker-header {
+            background: none;
+            border: none;
+        }
+
+        #ui-datepicker-div .ui-datepicker-header .ui-datepicker-prev,
+        #ui-datepicker-div .ui-datepicker-header .ui-datepicker-next {
+            background: none;
+            border: none;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td {
+            background: inherit !important;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td:hover {
+            background: inherit !important;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td a.ui-state-default {
+            background: white !important;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td a.ui-state-hover {
+            background: #e4e7e7 !important;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td a.ui-state-active {
+            background: #00455c !important;
+            color: white;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td a.ui-state-highlight {
+            border-color: #d3d3d3;
+        }
+
+        #ui-datepicker-div .ui-datepicker-calendar tr td a.ui-state-highlight.ui-state-hover {
+            border-color: #999;
+        }
+
+        .patient-header .value {
+            color: inherit;
+            font-weight: inherit;
+        }
+    </style>
+
+    <style type="text/css">
+        .sectionHeader { color: #00455c; font-weight: bold; }
+        .single-line { display: flex; align-items: baseline; }
+        .single-line-fixed-width { display: flex; align-items: baseline; width: 150px; }
+        .single-line-fixed-width-pe { display: flex; align-items: baseline; width: 180px; }
+        .append-to-value { margin: 0px 5px; }
+        .separator { padding: 10px }
+        hr { display: block; clear: both; height: 1px; background-color: rgba(0, 0, 0, 0.15); }
+        div.left-align { display: flex; }
+        #buttons { padding-top: 20px; }
+        .error { color: red; padding: 5px; }
+        select { width: 100px; }
+    </style>
+
+    <!--Fetch last visit details, Encounter type(Medical Visit Note)/Support System -->
+    <ifMode mode="ENTER">
+        <span id="previousVisitSpanId" style="display: none;">
+        <lookup complexExpression="
+            #set( $prevEnc = $fn.latestEncounter('968789ca-e9c4-492f-b1dc-101fd1aa2026') )
+
+            #set( $ssCodedList = $fn.allObs($prevEnc, '697faa2d-ab06-4fc6-9306-9f0d5b75d5a1') )
+            #set( $ssSize = $ssCodedList.size() )
+            #if( $ssSize >= 1) #set( $checkedValue0 = $ssCodedList.get(0).valueCoded.name ) #end
+            #if( $ssSize >= 2) #set( $checkedValue1 = $ssCodedList.get(1).valueCoded.name ) #end
+            #if( $ssSize >= 3) #set( $checkedValue2 = $ssCodedList.get(2).valueCoded.name ) #end
+            #if( $ssSize >= 4) #set( $checkedValue3 = $ssCodedList.get(3).valueCoded.name ) #end
+            #if( $ssSize >= 5) #set( $checkedValue4 = $ssCodedList.get(4).valueCoded.name ) #end
+            #set( $prevEncDateTime = $prevEnc.encounterDatetime )
+
+            $!{ssSize}|$!{checkedValue0}|$!{checkedValue1}|$!{checkedValue2}|$!{checkedValue3}|$!{checkedValue4}|$!{prevEncDateTime}|$!{prevEnc}" />
+        </span>
+    </ifMode>
+
+    <!--Encounter type(CFL HIV Visit)/In a relationship?/Disclosed?/Serodiscordance concept uuid from HIV Intake form-->
+    <span id="inARelHivIntakeSpanId" style="display: none;">
+        <lookup complexExpression="
+            #set( $obsForInARel = $fn.latestObs('669599f1-93ec-4bee-b871-0eb43150b45d') )
+            #if ( $obsForInARel )
+                #set( $relationshipYesOrNo = $obsForInARel.valueCoded.id )
+            #end
+            #set( $obsForDisclosureStatus = $fn.latestObs('7b41176b-9f3e-46f7-90f2-cef20294135b') )
+            #if ( $obsForDisclosureStatus )
+                #set( $disclosureStatus = $obsForDisclosureStatus.valueCoded.id )
+            #end
+            #set( $obsForSero = $fn.latestObs('11ac337b-e0ca-4ec8-b44c-8130eab307d0') )
+            #if ( $obsForSero )
+                #set( $seroValue = $obsForSero.valueCoded.id )
+            #end
+            $!{relationshipYesOrNo}|$!{disclosureStatus}|$!{seroValue}" />
+    </span>
+
+    <!--Encounter type(Visit Note)/Amount of medication provided concept uuid from CFL Medicine Refill Visit Note form-->
+    <span id="amtOfMedicationRefSpanId" style="display: none;">
+        <lookup complexExpression="
+            #set( $refillVisitEnc = $fn.latestEncounter('d7151f82-c1f3-4152-a605-2f9ea7414a79') )
+            #set( $encDateTime = $refillVisitEnc.encounterDatetime )
+            #set( $obs = $fn.getObs($refillVisitEnc, 'fe3e977e-a904-4899-b8ea-f7d40afc196f') )
+            #if( $obs )
+                #set( $amtOfMedication = $obs.valueText )
+            #end
+            $!{amtOfMedication}|$!{encDateTime}" />
+    </span>
+
+    <h2>Medical Visit Note</h2>
+
+    <!--Encounter type(Medical Visit Note)-->
+    <ifMode mode="EDIT" include="false">
+        <lookup complexExpression="
+            #set( $encounter = 0 )
+            #set( $encounter = $fn.latestEncounter('968789ca-e9c4-492f-b1dc-101fd1aa2026') )
+            #if( $encounter != 0 )
+                &lt;script type=&quot;text/javascript&quot;&gt;
+                    var hostServer = window.location.protocol + &quot;//&quot; + window.location.host;
+                    var htmlManageFormLink = hostServer + &quot;/openmrs/module/htmlformentry/htmlForm.form?id=&quot; + $htmlFormIdKey;
+                    var editHtmlFormLink = hostServer + &quot;/openmrs/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=$patient.patientId&amp;encounterId=$encounter.encounterId;
+
+                    if (window.location.href != htmlManageFormLink ) {
+                        window.location = editHtmlFormLink;
+                    }
+                &lt;/script&gt;
+            #end
+        "/>
+    </ifMode>
+
+    <ifMode mode="VIEW">
+        <script type="text/javascript">
+            // handle displaying the bmi when in VIEW mode
+            jQuery(function() {
+                // we have to iterate through in case there are multiple vitals forms
+                // displayed on a single page
+                jQuery('htmlform').each(function(index, form) {
+                    jQuery(form).find('#calculated-bmi-continue').hide();
+                    jQuery(form).find('#no-calculated-bmi').hide();
+
+                    let wt = jQuery(form).find('#weight').find('.value').text();
+                    let ht = jQuery(form).find('#height').find('.value').text();
+
+                    let bmi = calculateBmi(wt, ht);
+
+                    if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                        jQuery(form).find('#calculated-bmi-wrapper').show();
+                        jQuery(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                    }
+                });
+            });
+        </script>
+    </ifMode>
+
+    <section headerLabel="Medical Assessment">
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"><obs id="previousConsultationId" conceptId="69e279dc-459c-463f-ae85-bc52428ac768" labelText="Date of previous consultation" /></div>
+                <div class="col-md-4">Date today <encounterDate id="encounterDate" default="now" /></div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <obs id="admissionId" conceptId="4eb2e523-c97a-4060-9921-5b81287e96b4" labelText="Admission" style="yes_no" class="single-line">
+                        <controls><when value="true" thenDisplay="#detailsSection1" /></controls>
+                    </obs>
+                    <div id="detailsSection1">
+                        <repeat>
+                            <template>
+                                <div id="{n}-toggleDetailsSection1" style="display:none;">
+                                    <obsgroup groupingConceptId="9fc2db48-210a-403f-9f1f-0584f5be4265">
+                                        <table><tr>
+                                            <td><div style="display:none;"><obs id="{n}-section1OrderId" conceptId="7b2e5ef8-100d-411c-a0fe-f3a53d067ff3" /></div></td>
+                                            <td><obs id="{n}-section1DetailsId" conceptId="a637bf18-6425-420e-9d6a-01c765dafa7f" placeholder="Details" /></td>
+                                            <td><button id="{n}-section1DetailsRemoveId" class="removeDetailsSection1">Remove</button></td>
+                                        </tr></table>
+                                        <button id="{n}-section1DetailsAddId" class="addDetailsSection1">Add</button>
+                                    </obsgroup>
+                                </div>
+                            </template>
+                            <render n="1" />
+                            <render n="2" />
+                            <render n="3" />
+                            <render n="4" />
+                            <render n="5" />
+                        </repeat>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <obs id="erTemporaryStayId" conceptId="e09e069c-db3c-42fd-abe5-da9a0506d52b" labelText="ER Temporary Stay" style="yes_no" class="single-line">
+                        <controls><when value="true" thenDisplay="#detailsSection2" /></controls>
+                    </obs>
+                    <div id="detailsSection2">
+                        <repeat>
+                            <template>
+                                <div id="{n}-toggleDetailsSection2" style="display:none;">
+                                    <obsgroup groupingConceptId="2afc117d-e921-41d7-bde3-71854925bb33">
+                                        <table><tr>
+                                            <td><div style="display:none;"><obs id="{n}-section2OrderId" conceptId="7b2e5ef8-100d-411c-a0fe-f3a53d067ff3" /></div></td>
+                                            <td><obs id="{n}-section2DetailsId" conceptId="bef9d06d-286a-4dc1-8544-5e8d65479d21" placeholder="Details" /></td>
+                                            <td><button id="{n}-section2DetailsRemoveId" class="removeDetailsSection2">Remove</button></td>
+                                        </tr></table>
+                                        <button id="{n}-section2DetailsAddId" class="addDetailsSection2">Add</button>
+                                    </obsgroup>
+                                </div>
+                            </template>
+                            <render n="1" />
+                            <render n="2" />
+                            <render n="3" />
+                            <render n="4" />
+                            <render n="5" />
+                        </repeat>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <obs id="outpatientVisitId" conceptId="16556667-d27e-4b30-812b-3b9b66651986" labelText="Outpatient Visit" style="yes_no" class="single-line">
+                        <controls><when value="true" thenDisplay="#detailsSection3" /></controls>
+                    </obs>
+                    <div id="detailsSection3">
+                        <repeat>
+                            <template>
+                                <div id="{n}-toggleDetailsSection3" style="display:none;">
+                                    <obsgroup groupingConceptId="86c7c18b-d2de-4cae-ae47-81ef939bcb5c">
+                                        <table><tr>
+                                            <td><div style="display:none;"><obs id="{n}-section3OrderId" conceptId="7b2e5ef8-100d-411c-a0fe-f3a53d067ff3" /></div></td>
+                                            <td><obs id="{n}-section3DetailsId" conceptId="9ab369f3-7108-4dde-961f-7a776f28e2f6" placeholder="Details" /></td>
+                                            <td><button id="{n}-section3DetailsRemoveId" class="removeDetailsSection3">Remove</button></td>
+                                        </tr></table>
+                                        <button id="{n}-section3DetailsAddId" class="addDetailsSection3">Add</button>
+                                    </obsgroup>
+                                </div>
+                            </template>
+                            <render n="1" />
+                            <render n="2" />
+                            <render n="3" />
+                            <render n="4" />
+                            <render n="5" />
+                        </repeat>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <repeat>
+                        <template>
+                            <div id="{n}-toggleContainer" style="display:none;">
+                                <obsgroup groupingConceptId="67d1620c-4df7-454a-b7a5-92749a423b8a">
+                                    <table><tr>
+                                        <td><div class="left-align">Review of Medication </div>
+                                            <obs id="{n}-reviewOfMedicationId" conceptId="b2afe66d-b5bd-42db-8813-86e514548326" answerClasses="Drug" />
+                                        </td>
+                                        <td>
+                                            <div class="single-line">
+                                                <div><div class="left-align">Start date <span style="color:red">*</span> </div> <obs id="{n}-medicationStartDateId" conceptId="98f980c8-b352-4e5e-9a37-b5b0227317f4" /></div>
+                                                <div style="margin-top: auto;"><obs id="{n}-medicationStartDateEstId" conceptId="1e2122a9-1e7c-471b-99dd-7d34b2591812" style="checkbox" labelText="Estimated" class="single-line" /> </div>
+                                            </div>
+                                        </td>
+                                        <td><div class="left-align">End date </div><obs id="{n}-medicationEndDateId" conceptId="529f345e-d80d-4038-80b4-1fc585afda33" allowFutureDates="true" /></td>
+                                        <td><div style="display:none;"><obs id="{n}-orderId" conceptId="7b2e5ef8-100d-411c-a0fe-f3a53d067ff3" /></div></td>
+                                        <td><button id="{n}-removeEntry" class="removeEntry" style="margin-left: auto;">Remove</button></td>
+                                    </tr></table>
+                                    <button id="{n}-addEntry" class="addEntry">Add Medication</button>
+                                </obsgroup>
+                            </div>
+                        </template>
+
+                        <render n="1" />
+                        <render n="2" />
+                        <render n="3" />
+                        <render n="4" />
+                        <render n="5" />
+                        <render n="6" />
+                        <render n="7" />
+                        <render n="8" />
+                        <render n="9" />
+                        <render n="10" />
+
+                    </repeat>
+                </div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md">Self reported ART Compliance
+                    <obs id="artComplianceId" conceptId="97b8f731-f697-43f0-b14c-25f51d8d2d40" style="radio" class="single-line"
+                         answers="0,25,50,75,95,100" answerLabels="0%,25%,50%,75%,95%,100%" />
+                </div>
+            </div><hr />
+
+            <h3>Pill Count</h3>
+            <div class="row">
+                <div class="col-md-4"><obs id="pillCountLastVisitId" conceptId="b126c010-0144-4f6d-ab59-eee37d2d3b65" labelText="Pill Count Last Visit" /></div>
+                <div class="col-md-4"><obs id="pillCountDateOfRefillId" conceptId="2c11da3c-31c3-49d6-b2f2-4a613bea102b" labelText="Date of Refill" /></div>
+                <div class="col-md-4"><obs id="pillCountEstimatedId" conceptId="f679abab-7922-40a3-accc-023680f251d0" labelText="Estimated Pills Left" /></div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md-4">ART status<obs conceptId="7dd1e9bc-13eb-485d-a0bf-2a8aa27b3194" style="radio" class="single-line" /></div>
+                <div class="col-md-4"><obs conceptId="2f68e0b0-6a82-46e0-ad45-749d5860f1be" labelText="Reason" /></div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md-4">In a relationship?
+                    <obs id="inARelationshipId" conceptId="669599f1-93ec-4bee-b871-0eb43150b45d" style="radio" class="single-line"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                        <controls><when value="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay=".inARelDetailsSection" /></controls>
+                    </obs>
+                </div>
+                <div class="col-md-4"><div class="inARelDetailsSection">Disclosed?
+                    <obs id="disclosureStatusId" conceptId="7b41176b-9f3e-46f7-90f2-cef20294135b" style="radio" class="single-line"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                </div></div>
+                <div class="col-md-4"><div class="inARelDetailsSection">Serodiscordance
+                    <obs id="serodiscordanceId" conceptId="11ac337b-e0ca-4ec8-b44c-8130eab307d0" style="radio" class="single-line" />
+                </div></div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md">Which of the following support systems are in status disclosure?
+                    <div class="single-line">
+                        <repeat with="['4ca7f1be-1eaf-46cc-a289-494cce2bfe5e', 'Partner', 'ssPartnerId'],
+                                    ['0a8ef295-a715-4809-bfa5-814c4513ea74', 'Friend(s)', 'ssFriendId'],
+                                    ['6b60316a-8c5c-450f-9841-b9a69f5782cd', 'Family', 'ssFamilyId'],
+                                    ['52e1fabf-63e9-4c53-b1ff-e9a6bdb4d46c', 'Workplace', 'ssWorkplaceId'],
+                                    ['4e98a040-cf7d-48dd-bfb9-3a4fad9fa376', 'Public', 'ssPublicId']">
+                            <obs id="{2}" conceptId="697faa2d-ab06-4fc6-9306-9f0d5b75d5a1" answerConceptId="{0}" answerLabel="{1}" style="checkbox" class="single-line" />
+                        </repeat>
+                    </div>
+                </div>
+            </div><hr />
+
+            Covid 19 <br/>
+            <div class="row">
+                <div class="col-md-3">1st Dose <br/>
+                    <obs id="firstDoseCovid19Id" conceptId="ba89f788-7967-4a52-b842-830f7db7ccc7" class="single-line" style="radio"
+                         answerConceptIds="165627AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,165626AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,165616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="No,Refused,Yes">
+                        <controls><when value="165616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay="#firstDoseYesDivId"></when></controls>
+                    </obs>
+                </div>
+                <div id="firstDoseYesDivId" class="col-md-9 single-line"> <br/><br/>
+                    <obs id="firstDoseDateDoneId" conceptId="a975c90b-51af-4a42-b1ac-af110bc0500c" labelText="Date done" />
+                    <obs id="firstDoseVaccineUsedId" conceptId="64f5f909-e83a-4e84-9e8f-45a301b0adb5" labelText="Vaccine used" />
+                    <obs id="firstDoseProviderId" conceptId="133c253d-f1b4-488c-96e8-3120f4351309" labelText="Provider (if outside treatment facility)" />
+                </div>
+            </div> <br/>
+            <div class="row">
+                <div class="col-md-3">2nd Dose <br/>
+                    <obs id="secondDoseCovid19Id" conceptId="d3c055ba-963f-447e-996e-6872214e339a" class="single-line" style="radio"
+                         answerConceptIds="165627AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,165626AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,165616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="No,Refused,Yes">
+                        <controls><when value="165616AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay="#secondDoseYesDivId"></when></controls>
+                    </obs>
+                </div>
+                <div id="secondDoseYesDivId" class="col-md-9 single-line"> <br/>
+                    <obs id="secondDoseDateDoneId" conceptId="dd704c5b-f09b-493a-9a22-76f2f1fbb72b" labelText="Date done" />
+                    <obs id="secondDoseVaccineUsedId" conceptId="eaa4aaf5-9904-4840-82cc-675d93645b0b" labelText="Vaccine used" />
+                    <obs id="secondDoseProviderId" conceptId="539794bd-24ae-401e-bc65-fea196ca8d26" labelText="Provider (if outside treatment facility)" />
+                </div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md-6">Vaccination <br />
+                    <repeat with="['vacInfluenzaId','e90c7eda-e2a7-4ce3-86b1-bf1a3742bb19','Influenza','70fdbba0-578a-42b4-9670-04c2210b895c','bd91eba8-3a59-4fc8-96f9-6e7f257d8877'],
+                                ['vacPcvId','d8581c7d-a283-4ff5-a602-4f055352fcfa','PCV-13','57477d5f-eaca-4a02-b6e9-f229e523684c','add9112a-87d9-4d74-a0ec-667452feaa78'],
+                                ['vacHavId','660af2e3-96db-4cb4-ac91-13644121a751','HAV','d2abdab2-99a0-4ce9-9709-f173264eea22','730949a8-9714-431c-888d-f6ac9154dc26'],
+                                ['vacMenacwyId','acf76645-0ba4-4eca-a5ef-f951b40063e3','MenACWY','ffadb22d-aea6-44e1-8cbc-f46a955e2f73','1e0c9845-c7bd-40f4-8b0f-b6b41c3512f7'],
+                                ['vacVaricellaId','892AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA','Varicella','6f926421-1d9b-443e-a691-7dff1ea882dd','80b03c49-8578-4bcb-bcc8-a7494fb6ecae']">
+                        <div class="single-line">
+                            <obs id="{0}" conceptId="abbdfb23-ba87-482c-b370-62dd1e1ecfaf" style="checkbox" class="single-line-fixed-width"
+                                 answerConceptId="{1}" answerLabel="{2}" toggle="{0}-dateAndLotDivId" />
+                            <div id="{0}-dateAndLotDivId" class="single-line">
+                                <obs id="{0}-dateId" conceptId="{3}" labelText="Date received" />
+                                <obs id="{0}-lotId" conceptId="{4}" labelText="Lot number" />
+                            </div></div> <br/>
+                    </repeat>
+                </div>
+                <div class="col-md-6"><br />
+                    <repeat with="['vacPpsvId','9d3b4c50-f325-4236-bc5b-972ba1bc2192','PPSV-23','6a9edd84-8591-478b-9641-085b4de8c6b7','2d77205a-20f1-493a-91a4-432085fa4730'],
+                                ['vacHbvId','d7f9402c-1c44-4ad2-ad5c-9f71164b0d3e','HBV','9b61ba17-3665-469f-8f22-236ed16b0d9c','a0098f5d-52a0-47b0-9622-2e4b74b8e99b'],
+                                ['vacHpvId','adf82ff9-64c5-47c1-9397-7e5676c58e54','HPV','202100ce-3b7b-455c-bf72-912a62c8887e','0c83afde-9655-4552-a6de-03a5540fba11'],
+                                ['vacTdapId','56d002fe-dddb-4a73-8807-ff51d9d602a8','TDAp','6d39af4b-c1ac-4439-b5c5-534a30d6e758','84b6f9ad-e361-4c82-a8cd-928527264eaf'],
+                                ['vacMmrId','6dd8c2eb-1470-4a46-9ea1-142ff2c415c2','MMR','4c89b40b-70e1-49fc-b4d9-6fd10bf2c6a1','6997d943-7555-4bb7-b41d-89f996167d6c']">
+                        <div class="single-line">
+                            <obs id="{0}" conceptId="abbdfb23-ba87-482c-b370-62dd1e1ecfaf" style="checkbox" class="single-line-fixed-width"
+                                 answerConceptId="{1}" answerLabel="{2}" toggle="{0}-dateAndLotDivId" />
+                            <div id="{0}-dateAndLotDivId" class="single-line">
+                                <obs id="{0}-dateId" conceptId="{3}" labelText="Date received" />
+                                <obs id="{0}-lotId" conceptId="{4}" labelText="Lot number" />
+                            </div></div> <br/>
+                    </repeat>
+                </div>
+            </div><hr />
+
+            <div class="row">
+                <div class="col-md-4">TB symptoms <br/>
+                    <repeat with="['a7f83ede-1c97-46f7-be7f-475efdd00d83', 'No Cough'],
+                                    ['d7769f9a-0482-4522-a3d7-9df7b95061b0', 'Non-Productive Cough'],
+                                    ['da6cec65-1ffc-41a6-a0a2-bd5fb4a2228d', 'Productive Cough'],
+                                    ['c6856a39-381b-4811-b448-e3ee3a705250', 'Other Cough'],
+                                    ['bd88325f-87e9-415a-b8eb-cb53fea53989', 'Night Sweats'],
+                                    ['05ec36bd-5871-4383-996f-9b92a67e39b8', 'Hemoptysis'],
+                                    ['120749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Chest Pain'],
+                                    ['f01e37b8-2099-495a-82c5-c28b3f2c51b2', 'Back Pain'],
+                                    ['5226AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Weakness'],
+                                    ['972bcf81-644e-4f93-bc54-49d9efe2e737', 'Loss of Appetite'],
+                                    ['3e6fe1b0-1d62-4f7c-8c85-77d0e520fd34', 'Difficulty Breathing']">
+                        <obs conceptId="b18bf707-c837-4043-97c8-d59768a9de11" answerConceptId="{0}" answerLabel="{1}" style="checkbox" />
+                    </repeat>
+                </div>
+                <div class="col-md-6">TB Screening <br />
+                    <obs conceptId="056a7f79-eb51-4dde-ac1e-67106809d46d" style="radio" answerSeparator=""
+                         answerConceptIds="7074106c-fa96-49a8-8b83-83f906562d09,d56dd84f-fa29-42fa-b394-75d733f36e88,1bfe11cb-fc86-472d-9d87-61dabe999471,f9b9c8cc-9949-4101-a998-8ef4d7111a02,3350c112-e034-4e33-9725-fbdd3ce26437" />
+                </div>
+            </div><hr />
+
+            Opportunistic infections <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <repeat with="['112493AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA','Syphilis'],
+                                    ['e2e8207d-f434-49b7-8226-5da162c214fb','Hepatitis C'],
+                                    ['114100AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA','Pneumonia'],
+                                    ['120939AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA','Oropharyngeal candidiasis']">
+                        <obs conceptId="77693895-20b6-4e98-8ff3-b1f693dc9743" style="checkbox"
+                             answerConceptId="{0}" answerLabel="{1}" class="single-line" />
+                    </repeat>
+                </div>
+                <div class="col-md-6">
+                    <repeat with="['7ed65156-fcd2-41b7-b017-5829ee5594e7','Hepatitis B'],
+                                    ['b76973d3-2219-49cf-9e0a-e18003bde39b','Pneumocystis'],
+                                    ['9731ffb6-aca4-4a85-80ff-756ef06c5138','CMV retinitis']">
+                        <obs conceptId="77693895-20b6-4e98-8ff3-b1f693dc9743" style="checkbox"
+                             answerConceptId="{0}" answerLabel="{1}" class="single-line" />
+                    </repeat>
+                    <div class="row"><div class="col-md-6">
+                        <obs id="oppInfectOthersId" conceptId="77693895-20b6-4e98-8ff3-b1f693dc9743" style="checkbox" class="single-line"
+                             answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Others" commentFieldLabel="" />
+                    </div></div>
+                </div>
+            </div> <hr/>
+
+            <div class="row">
+                <div class="col-md-6">PE <br/>
+                    <repeat with="['peGeneralId','7861918c-48c7-4702-b927-7dc1a0beceea','General','d708aee1-752f-4c9d-8f18-253f45cbb4f8','3cd08cb7-6516-47bc-a191-f012c7f0ea32'],
+                                ['peCardiovascularId','eb19e008-e352-4f54-8567-8f57bbc3d164','Cardiovascular','57b9f277-ffa4-470e-84a2-faafb9b1260c','51cb2255-88d9-4fbd-8913-7e138680007e'],
+                                ['peGastrointestinalId','085082da-f3e4-4b95-a4fd-501f712d3433','Gastrointestinal','d65096ba-8d55-493f-8660-bac06321ddd7','da538586-4138-4273-ac3e-f7eb08713e6b'],
+                                ['peReproductiveId','ed1dd86f-f4d1-4835-b156-6cd4c5c0e0b9','Reproductive','938adf8f-6d86-4b45-a594-370d31c4bde2','c3ae6f8b-e759-4b4f-a36c-50a065ee763e'],
+                                ['peNeurologyId','39d0679f-f2df-4da8-9aea-eaecf64a76b4','Neurology','16aaaddb-4ef0-4c36-9be3-8265125c4072','85246a3b-9073-4d1f-a455-24792cf85e01'],
+                                ['peHematologyId','1a4b6127-25bc-4b12-adc2-509b61f8f670','Hematology-Oncology','9a9d99a0-a1f0-41e1-b125-f9e9d2a8cd59','2791ff41-651f-41ea-98a7-5ec1621871b4']">
+                        <div class="single-line">
+                            <obs id="{0}" conceptId="ac799537-524e-4236-9acd-72a33e3b22a5" style="checkbox" class="single-line-fixed-width-pe"
+                                answerConceptId="{1}" answerLabel="{2}" toggle="{0}-OptDivId" />
+                            <div id="{0}-OptDivId">
+                                <obs id="{0}-OptId" conceptId="{3}" style="radio" class="single-line"
+                                     answerConceptIds="4cd6fd6b-e155-44c8-bc8b-d617df0d501b,5903ca06-2433-400e-8462-298d1b30e699,2f1ba5b0-925b-4196-9795-a7eaa64bf6ec" >
+                                     <controls><when value="5903ca06-2433-400e-8462-298d1b30e699" thenDisplay="#{0}-DetailsId"></when></controls>
+                                </obs>
+                                <obs id="{0}-DetailsId" conceptId="{4}" labelText="Details" class="single-line" />
+                            </div></div> <br/>
+                    </repeat>
+                </div>
+                <div class="col-md-6"><br />
+                    <repeat with="['peHeentId','91325071-c770-49d7-a6e1-26a2f4455cc2','HEENT','39b2fb78-148d-4cd6-ba81-af44ccee8c37','61759abc-e476-4508-8422-fb7a2f4f8cc3'],
+                                ['peRespiratoryId','0af312b8-2806-4252-bca4-7968f64de28c','Respiratory','6f19d8d0-8fe8-4899-9dc9-9fd070133145','88128239-e71e-450f-bb63-050f9c1a54dd'],
+                                ['peGenitourinaryId','78e5daa6-0393-4e5f-a047-83f7c6581300','Genitourinary','bc1fd02f-779f-4620-9753-d35c6f155156','e2947a46-ce83-41ac-8fb5-498f1c88c76d'],
+                                ['peMusculoskeletalId','baf71bff-6b3b-4b16-aa26-3e412a6dd890','Musculoskeletal','ab8482f4-fd59-40b9-bec4-19b7a7479b2f','94dbc638-433d-4fa2-9170-d3f58b51ab78'],
+                                ['peDermatologyId','3f894498-64bc-4add-ae1a-5c0d910ab1ca','Dermatology','f73b7604-0dc8-491b-9871-0f2dfce7c15d','a3339fb1-e0a7-45b4-90f9-bf320446dae5']">
+                        <div class="single-line">
+                            <obs id="{0}" conceptId="ac799537-524e-4236-9acd-72a33e3b22a5" style="checkbox" class="single-line-fixed-width-pe"
+                                answerConceptId="{1}" answerLabel="{2}" toggle="{0}-OptDivId" />
+                            <div id="{0}-OptDivId">
+                                <obs id="{0}-OptId" conceptId="{3}" style="radio" class="single-line"
+                                     answerConceptIds="4cd6fd6b-e155-44c8-bc8b-d617df0d501b,5903ca06-2433-400e-8462-298d1b30e699,2f1ba5b0-925b-4196-9795-a7eaa64bf6ec" >
+                                     <controls><when value="5903ca06-2433-400e-8462-298d1b30e699" thenDisplay="#{0}-DetailsId"></when></controls>
+                                </obs>
+                                <obs id="{0}-DetailsId" conceptId="{4}" labelText="Details" class="single-line" />
+                            </div></div> <br/>
+                    </repeat>
+                </div>
+            </div><hr />
+
+            <h4 style="opacity: unset !important">Capture Vitals</h4>
+            <div class="row">
+                <div class="col-md-3">Height<obs id="height" conceptId="CIEL:5090" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value" class="single-line" /></div>
+                <div class="col-md-3">Weight<obs id="weight" conceptId="CIEL:5089" showUnits="uicommons.units.kilograms" unitsCssClass="append-to-value" class="single-line" /></div>
+                <div class="col-md-3">Temperature<obs id="temperature" conceptId="CIEL:5088" showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value" class="single-line" /></div>
+                <div id="calculated-bmi-wrapper" class="col-md-3">Calculated BMI <br />
+                    <span id="no-calculated-bmi">
+                        <i>BMI is calculated based on input from Height and Weight</i>
+                    </span>
+                    <span id='calculated-bmi' />
+                </div>
+            </div> <br />
+            <div class="row">
+                <div class="col-md-3">Pulse<obs id="heart_rate" conceptId="CIEL:5087" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value" class="single-line" /></div>
+                <div class="col-md-3">Respiratory rate<obs id="respiratory_rate" conceptId="CIEL:5242" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value" class="single-line" /></div>
+                <div class="col-md-3">Blood Pressure
+                    <div class="single-line">
+                        <obs id="bp_systolic" conceptId="CIEL:5085" />
+                        <p class="separator">/</p>
+                        <obs id="bp_diastolic" conceptId="CIEL:5086" />
+                    </div>
+                </div>
+                <div class="col-md-3">Blood oxygen saturation<obs id="o2_sat" conceptId="CIEL:5092" showUnits="uicommons.units.percent" unitsCssClass="append-to-value" class="single-line" /></div>
+            </div><hr />
+
+            <!--If patient is female START-->
+            <includeIf velocityTest="$patient.gender == 'F'">
+                <h4 style="opacity: unset !important">Pregnancy Details</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <obs id="pregnancyStatusId" conceptId="a657e658-c0eb-49a1-9dbb-96c6e0c7e2b9" labelText="Pregnancy Status" style="yes_no" class="single-line">
+                            <controls>
+                                <when value="true" thenDisplay="#pregnancyDetailsYesSection" />
+                                <when value="false" thenDisplay="#pregnancyDetailsNoSection" />
+                            </controls>
+                        </obs>
+                    </div>
+                </div>
+                <!--If Yes then -->
+                <div id="pregnancyDetailsYesSection" class="row">
+                    <div class="col-md-3"><obs conceptId="3bda56a0-35d0-40b9-9dc3-ad25fca90f3a" labelText="Gravida" /></div>
+                    <div class="col-md-3"><obs conceptId="a92bd0b5-1153-4e2e-8ba1-a12906201716" labelText="Parity" /></div>
+                    <div class="col-md-3"><obs conceptId="eef9478b-bfbf-4c21-8f09-31f7017ba1c2" labelText="Last menstrual period (LMP)" /></div>
+                    <div class="col-md-3"><obs conceptId="5726e4e1-2340-48cf-a1d0-59a06636ff93" labelText="Estimated date of delivery (EDD)" /></div>
+                </div>
+                <!--If No then -->
+                <div id="pregnancyDetailsNoSection" class="row">
+                    <div class="col-md-4">Family planning status <br />
+                        <obs id="familyPlanningId" conceptId="5f849cc3-2907-4a00-9ec6-9b8f4faf1b46" style="radio" class="single-line"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,17fb6c84-f8e5-4a75-abb5-929c4893399f">
+                            <controls>
+                                <when value="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay="#familyPlanningYesSection" />
+                                <when value="1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay="#familyPlanningNoSection" />
+                                <when value="17fb6c84-f8e5-4a75-abb5-929c4893399f" thenDisplay="#familyPlanningWantsToSection" />
+                            </controls>
+                        </obs>
+                    </div>
+                    <!--If Family planning status, Yes or wants to then-->
+                    <div id="familyPlanningYesSection" class="col-md-4">Family planning method <br />
+                        <repeat with="['6c0dd8ed-2a6f-4ba5-a4e9-4f9a43bf7df0','Emergency contraceptive pills'],
+                                    ['208dee54-1737-4e78-b378-4f72d71932d3','Oral contraceptive pills'],
+                                    ['989c3213-ad5e-4a4e-a02c-cfe62173bd09','Injectable'],
+                                    ['9453880f-c375-40e3-b361-b00a5249ee3b','Implant'],
+                                    ['19a7d2ec-1b83-4b10-8874-b4cb70ae825c','Intrauterine device (IUD)'],
+                                    ['7d7f1ae6-35bb-4810-8e5e-25b4d3887fe4','Lactation amenorrhea method'],
+                                    ['14428f5b-9767-4440-96f3-b987ced4b80f','Diaphragm'],
+                                    ['b60f6c2b-95f4-499e-86b3-b88b7588312b','Fertility awareness'],
+                                    ['7c8d4c82-7636-455c-bc7a-5fb23075d58b','Tubal ligation'],
+                                    ['d1f4eeb1-4580-4ed3-a0e3-7793eb7a3180','Condoms'],
+                                    ['f98e6c76-91ef-4c66-a1dc-cdcd4d507aea','Partner Vasectomy'],
+                                    ['1b7c4cf7-16e7-4bba-8633-f2034ae90dfd','Undecided']">
+                            <obs conceptId="334f3bf3-9aad-4970-8eac-63e459008ed0" answerConceptId="{0}" style="checkbox" />
+                        </repeat>
+                    </div>
+                    <!--If Family planning status, Wants to then-->
+                    <div id="familyPlanningWantsToSection" class="col-md-4">Family planning method <br />
+                        <repeat with="['6c0dd8ed-2a6f-4ba5-a4e9-4f9a43bf7df0','Emergency contraceptive pills'],
+                                    ['208dee54-1737-4e78-b378-4f72d71932d3','Oral contraceptive pills'],
+                                    ['989c3213-ad5e-4a4e-a02c-cfe62173bd09','Injectable'],
+                                    ['9453880f-c375-40e3-b361-b00a5249ee3b','Implant'],
+                                    ['19a7d2ec-1b83-4b10-8874-b4cb70ae825c','Intrauterine device (IUD)'],
+                                    ['7d7f1ae6-35bb-4810-8e5e-25b4d3887fe4','Lactation amenorrhea method'],
+                                    ['14428f5b-9767-4440-96f3-b987ced4b80f','Diaphragm'],
+                                    ['b60f6c2b-95f4-499e-86b3-b88b7588312b','Fertility awareness'],
+                                    ['7c8d4c82-7636-455c-bc7a-5fb23075d58b','Tubal ligation'],
+                                    ['d1f4eeb1-4580-4ed3-a0e3-7793eb7a3180','Condoms'],
+                                    ['f98e6c76-91ef-4c66-a1dc-cdcd4d507aea','Partner Vasectomy'],
+                                    ['1b7c4cf7-16e7-4bba-8633-f2034ae90dfd','Undecided']">
+                            <obs conceptId="334f3bf3-9aad-4970-8eac-63e459008ed0" answerConceptId="{0}" style="checkbox" />
+                        </repeat>
+                    </div>
+                    <!--If Family planning status, No then-->
+                    <div id="familyPlanningNoSection" class="col-md-4">Reason <br />
+                        <obs id="pregReasonOtherId" conceptId="34c475e5-ff5d-411a-86b2-8af2e04eb303" style="radio"
+                             answerConceptIds="bd2c7ab2-d00b-47a5-8731-4d9833456689,43fc7d52-3dca-4e4c-9227-e6ac73b36bd9,82e35fc7-86dd-472a-8eab-1e88fa4415a7,89b36f69-311a-4c22-b28b-e88ce910148c"
+                             answerLabels="Wants to get pregnant,Thinks cannot get pregnant,Not Sexually active,Other"
+                             answerSeparator="" >
+                            <controls>
+                                <when value="89b36f69-311a-4c22-b28b-e88ce910148c" thenDisplay="#pregReasonOtherSpecifyDiv" />
+                            </controls>
+                        </obs>
+                        <!--If Reason = other then-->
+                        <div id="pregReasonOtherSpecifyDiv" class="single-line">Specify <obs conceptId="72f1c062-1a9c-4c72-a9c8-860ace888775" /></div>
+                    </div>
+                </div>
+            </includeIf>
+            <!--If patient is female END-->
+        </div>
+    </section>
+
+    <section headerLabel="Behavioral Risk Assessment">
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">Mental Health Evaluation <br />
+                    <obs id="mentalHealthYesEvalId" conceptId="cacb9e28-b945-4a22-8194-14231c35098c" style="yes_no" class="single-line"
+                         yesLabel="Done" noLabel="Not done">
+                        <controls><when value="true" thenDisplay=".mentalHealthYesEvalSection" /></controls>
+                    </obs>
+                </div>
+                <div class="col-md-4">
+                    <div class="mentalHealthYesEvalSection">Specify <br />
+                        <obs conceptId="1638aad5-4fd3-4b5c-ac68-6588c6c586a3" answerClasses="CfL conditions class" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mentalHealthYesEvalSection">
+                        <obs conceptId="62f00afd-e23f-458d-b7d4-049ed567c008" labelText="Medical History" />
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-md-4">Sexual Risk Assessment <br />
+                    <obs id="sexualRiskAssessmentId" conceptId="374ae96d-e78d-4ad5-bb1c-8ff7f8340f56" style="yes_no" class="single-line">
+                        <controls>
+                            <when value="true" thenDisplay=".sexualRiskAssessmentSection" />
+                        </controls>
+                    </obs>
+                </div>
+                <div class="col-md-4"><div class="sexualRiskAssessmentSection">
+                    % Condom use with Partner <br />
+                    <obs conceptId="bbd5b729-ddcf-4772-bf46-107f39733425" style="radio" class="single-line"
+                         answers="0,25,50,75,100" answerLabels="0%,25%,50%,75%,100%" />
+                </div></div>
+                <div class="col-md-4"><div class="sexualRiskAssessmentSection">
+                    % Condom use with Casual Sex <br />
+                    <obs conceptId="46bede5a-b85b-4962-8c25-a37b7ae01b56" style="radio" class="single-line"
+                         answers="0,25,50,75,100" answerLabels="0%,25%,50%,75%,100%" />
+                </div></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><div class="sexualRiskAssessmentSection">
+                    Condom negotiation <br /><obs conceptId="e2ed54ad-54ea-4301-ac42-08adc2eb9c8d" style="yes_no" class="single-line" />
+                </div></div>
+                <div class="col-md-4"><div class="sexualRiskAssessmentSection">
+                    <obs conceptId="7ab676cd-5570-4191-9426-d0db6519a467" labelText="Reason" />
+                </div></div>
+                <div class="col-md-4"></div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    Medical Literacy <br /><obs conceptId="bbabc888-cdcd-44cb-9f37-5169237725a9" style="yes_no" class="single-line" />
+                </div>
+                <div class="col-md-4"><obs conceptId="c3f4a18a-6466-4efc-86c1-4a0532b7d5fe" labelText="Information Source" /></div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-md-4">Smoking history <br />
+                    <obs id="smokingHistoryId" conceptId="9e2b39f6-f51d-4606-b64b-50ced4a45858" style="radio" class="single-line"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,56708982-465c-4f56-86e4-c30845229890" >
+                        <controls>
+                            <when value="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay=".smokingHistoryYesSection" />
+                            <when value="56708982-465c-4f56-86e4-c30845229890" thenDisplay="#smokingHistoryPreviousSection" />
+                        </controls>
+                    </obs>
+                </div>
+                <div class="col-md-4"><div class="smokingHistoryYesSection">
+                    Quantify pack years <obs conceptId="918a59b5-6c4c-439c-8e2e-09adb6096701" />
+                </div></div>
+                <div class="col-md-4"><div class="smokingHistoryYesSection">
+                    Addiction <obs conceptId="f3d06e8c-78ea-48bc-b7de-6370252a85a3" style="yes_no" class="single-line" />
+                </div></div>
+            </div>
+            <div id="smokingHistoryPreviousSection" class="row">
+                <div class="col-md-3">Year Quit <obs conceptId="3b5a850d-3fa1-47f7-bb78-ffe5f05f3149" /></div>
+            </div>
+            <div class="smokingHistoryYesSection"><div class="row">
+                <div class="col-md-9">
+                    Stage of Change <obs conceptId="dff67aa2-68f4-451c-a3bb-470789d4a0c8" style="radio" class="single-line" />
+                </div>
+                <div class="col-md-3">Current Management <obs conceptId="1c0f56b3-561e-48f7-8c7b-8eea07643734" /></div>
+            </div></div>
+
+            <hr />
+            <div class="row">
+                <div class="col-md-3">Alcohol History <br />
+                    <obs id="alcoholHistoryId" conceptId="cec61e6c-8dfd-4ca8-9ee2-d6123405395a" style="radio" class="single-line"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,56708982-465c-4f56-86e4-c30845229890">
+                        <controls>
+                            <when value="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay=".alcoholHistoryYesSection" />
+                            <when value="56708982-465c-4f56-86e4-c30845229890" thenDisplay="#alcoholHistoryPreviousSection" />
+                        </controls>
+                    </obs>
+                </div>
+                <div class="col-md-9"><div class="alcoholHistoryYesSection">Quantify drinking <br />
+                    <obs conceptId="4573373a-cfdc-4c3f-8e8a-efa8796acc6e" style="radio" class="single-line"
+                         answerConceptIds="18c29d96-a5d2-45bd-8fff-d846aeb245e7,1098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,722341c3-1321-4978-8594-fd6d3208acc1,ef13e851-eed8-4c78-bbab-36151e9a5319,024e1cff-f7ce-49f5-894b-6f27e29ee000,97521c27-7cc9-4146-9bd1-3fbbb8630454,160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="Never, Once a month,2 or 3 times a month,Once or twice a week,3 or 4 times a week,Nearly everyday,Daily" />
+                </div></div>
+            </div>
+            <div id="alcoholHistoryPreviousSection" class="row">
+                <div class="col-md-3">Year quit<obs conceptId="ab194e32-2128-4820-aded-3a2166c981fd" /></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">Universal Screening ≥ 5(M)/4(F) drinks per day?
+                    <obs id="universalScreeningId" conceptId="c745f480-0fc8-45e3-aa69-16faa57de5bc" style="yes_no" class="single-line">
+                        <controls>
+                            <when value="true" thenDisplay="#universalScreeningYesSection" />
+                        </controls>
+                    </obs>
+                </div>
+                <div class="col-md-3"><div id="universalScreeningYesSection">Addiction
+                    <obs id="alcoholAddictionId" conceptId="70acdfaa-c88c-442c-869f-92f32e0e1f88" style="yes_no" class="single-line">
+                        <controls>
+                            <when value="true" thenDisplay=".alcoholAddictionYesSection" />
+                        </controls>
+                    </obs>
+                </div></div>
+            </div>
+            <div class="alcoholAddictionYesSection"><div class="row">
+                <div class="col-md-9">Stage of Change<obs conceptId="bf1ff077-4b46-4e3e-a904-e6dc25923e9e" style="radio" class="single-line" /></div>
+                <div class="col-md-3">Current management <obs conceptId="dbf1e3db-3eea-4e53-90b7-fe0acb4fff46" /></div>
+            </div></div>
+
+            <hr />
+            <div class="row">
+                <div class="col-sm">Drug history <br />
+                    <obs id="drugHistoryId" conceptId="5bf1f6ff-045a-4d24-8c7f-a602bbb70917" style="radio" class="single-line"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,56708982-465c-4f56-86e4-c30845229890">
+                        <controls>
+                            <when value="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" thenDisplay=".drugHistoryYesSection" />
+                            <when value="56708982-465c-4f56-86e4-c30845229890" thenDisplay="#drugHistoryPreviousSection" />
+                        </controls>
+                    </obs>
+                </div>
+            </div>
+            <div id="drugHistoryPreviousSection" class="row"><br />
+                <div class="col-md-3">Year quit <obs conceptId="da22f1fe-a7eb-48eb-ba56-aa70977b09be" /></div>
+            </div>
+            <div class="drugHistoryYesSection">
+                <div class="row"><div class="col-md"><br /> Specify<span style="color:red">*</span> <br />
+                    <repeat with="['mapSmokeId','c38159a0-e785-43b5-9d56-7674cdb2aedb','MAP smoke','a0710a54-ddf3-4504-b66c-bfadbd752b48','b6f674a7-4e70-44dd-a37a-48ed52686e92','f5ae06de-8f0d-4edc-b42b-c597f9676d51','7c2ac6bc-3e70-4c59-932d-93fc5d7c0821'],
+                                ['mapInjectedId','174d373d-d8ff-4472-ae70-7fdd5351b77d','MAP injected','be3a79e5-62c1-41e2-b6a6-0f489f7ce93f','c5f06519-0e92-4b05-a13b-23d9d2466ee9','39abe084-9bcd-4a02-aeb2-8a88bf4349bc','8d7d0e0e-5be2-491e-a279-28011f78ee43'],
+                                ['mapMucosalId','1ed9ab12-b2d4-4a7e-94f2-e5d9d5d9e0b9','MAP mucosal','8146ea97-ef14-4727-96d5-1401ac16ac23','aa5791c1-f1e6-4b88-903c-15991ce73158','2b3bf01c-ed2d-4d5c-aacc-59c73787e4ef','fd680c37-2f84-4fcb-9745-9e08e8841450'],
+                                ['ecstasyId','65c79701-fd1e-4cef-924c-ec875c6f0614','Ecstasy','1795233a-6a44-45a5-be8c-da884a585a2d','62c1a347-a907-4b92-94d9-8c0d1be08103','f7ed01f6-8db7-45e0-bbe1-8bdc7e46cbc2','41035926-1b0a-4156-bbd5-f8d1e4a1cf80'],
+                                ['ghbId','d0567584-e83d-4213-8bce-4c5ba3f7dae9','GHB','3dfab3e9-20e1-4713-9c58-85cb2b2922bd','ce84c6a0-86f7-4f1c-81e2-22d0faaf878a','b6ba7826-a4b4-467e-991c-1c8105602e8f','7d53a005-ee28-4de3-bf63-9d12b3a13d77'],
+                                ['cocaineId','c8db5ca7-aceb-4fe1-bbb7-68c81dbd76b3','Cocaine','643a3bd1-765c-4494-836e-319d35aee128','b29789fa-e2f6-49dd-a7c4-1f5c8ff8c256','70893e97-c030-40c1-a7ba-cc49cabddcd8','1e62d27d-43d3-4bf7-8f3a-20bd61a71c69'],
+                                ['marijuanaId','40ec25cd-4036-4531-8c78-325b8648daaf','Marijuana','049c95d7-2873-4672-8e69-0f56d8e4e2ba','1031da7d-3296-497c-8415-01d9dad9c2b0','25283b4e-efae-46a4-b9dc-5d43606a8d05','040d9ef0-f2b6-4b4e-8171-1979ab715a81'],
+                                ['poppersId','18dcd760-ece1-4f85-abfa-e1b01f6f19f7','Poppers','8ae26eda-4c90-48a8-9d6b-a6bb507cd8e3','622a8079-66e0-4045-86e1-40ad92767966','7aed768a-8256-4654-a712-f422038b0e8b','a79c24db-9399-4668-a4f7-462f3b570606'],
+                                ['ketamineId','d72c72be-6c23-45eb-85ea-7c3140e71a36','Ketamine','90cf7db5-08a7-4343-acb6-e57dc70080ed','324947ac-8c1f-406a-8545-b83b77d79e16','d053b0c5-c232-49c3-b768-4de8b9f16c30','a3520e9b-71b7-4133-9bcb-b38507bc60d9'],
+                                ['acidId','9f5df8f6-b6fc-4630-8e4d-843b669d1acc','Acid','ea5bf76b-43ab-4695-ae49-064b6ecf7d08','00e2fd94-18a9-405b-a18c-b5162988fce1','51edd9a0-9101-433b-a080-dc8ac4c3c91b','1f2ba0f7-77d3-4313-bd37-fa52c046a604'],
+                                ['valiumId','0ab4fd04-a243-4ae2-b386-8419351faa84','Valium','db34c7dc-8192-4bd8-bf42-2ee07887f704','8e1f6c9e-c7cd-4865-9eb9-b1ef1808a8af','7a0b2b2c-e3f0-420c-9b6e-e959f6626cc1','78df5283-eb78-4add-84e0-085d886475de'],
+                                ['opioidsId','50fa334a-cbba-466e-8666-8d41d3313eeb','Opioids','ff3176a3-184c-4ebf-95e6-c8b922b1433d','2a8d093a-45e8-40b2-803a-da4ff6a4a1bb','db7553bd-6d26-4a05-9d7c-65e0a98df66d','b286abbb-2f87-46e2-9256-97fa7fb36447'],
+                                ['heroinId','645a4293-2327-4787-a695-767882f814f3','Heroin','47ab7fff-c589-4792-bb1d-eb5f813a09f0','80575d86-7c3e-4709-855c-a435fda4cfeb','ba2c96c3-182d-41b1-bb1d-4d691efda14d','3b883546-78ab-439e-8dec-c6d484c50766']">
+                        <obs id="{0}" conceptId="405e5617-2efd-4e81-a075-4ef2ebfdfdf5" style="checkbox"
+                             answerConceptId="{1}" answerLabel="{2}" toggle="{0}Div" />
+                        <div id="{0}Div"><div class="row">
+                            <div class="col-md-10">Frequency <span style="color:red">*</span><span id="{0}FreqSpan" style="color:red; display:none;"> Required</span>
+                                <obs id="{0}Freq" conceptId="{3}" style="radio" class="single-line"
+                                     answerConceptIds="18c29d96-a5d2-45bd-8fff-d846aeb245e7,1098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,722341c3-1321-4978-8594-fd6d3208acc1,ef13e851-eed8-4c78-bbab-36151e9a5319,024e1cff-f7ce-49f5-894b-6f27e29ee000,97521c27-7cc9-4146-9bd1-3fbbb8630454,160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabels="Never,Once a month,2 or 3 times a month,Once or twice a week,3 or 4 times a week,Nearly everyday,Daily" />
+                            </div>
+                            <div class="col-md-2">{2} Addiction <span style="color:red">*</span><span id="{0}AddictionSpan" style="color:red; display:none;"> Required</span>
+                                <obs id="{0}Addiction" conceptId="{4}" style="yes_no" class="single-line">
+                                    <controls><when value="true" thenDisplay=".{0}AddictionYesSection" /></controls>
+                                </obs>
+                            </div></div>
+                            <div class="{0}AddictionYesSection">
+                                <div class="row">
+                                    <div class="col-md-9">Stage of Change <obs conceptId="{5}" style="radio" class="single-line" /></div>
+                                    <div class="col-md-3">Current management <obs conceptId="{6}" /></div>
+                                </div>
+                            </div>
+                        </div><br />
+                    </repeat>
+                </div></div>
+                <div class="row"><div class="col-md-4">
+                    <obs id="otherDrugId" conceptId="405e5617-2efd-4e81-a075-4ef2ebfdfdf5" style="checkbox" class="single-line"
+                         answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Others(Specify)" toggle="otherDrugIdDiv" commentFieldLabel="" />
+                </div></div>
+                <div id="otherDrugIdDiv"><div class="row">
+                    <div class="col-md-10">Frequency <span style="color:red">*</span><span id="otherDrugIdFreqSpan" style="color:red; display:none;"> Required</span>
+                        <obs id="otherDrugIdFreq" conceptId="fe901306-a815-4476-98e1-7894397cd8c8" style="radio" class="single-line"
+                             answerConceptIds="18c29d96-a5d2-45bd-8fff-d846aeb245e7,1098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,722341c3-1321-4978-8594-fd6d3208acc1,ef13e851-eed8-4c78-bbab-36151e9a5319,024e1cff-f7ce-49f5-894b-6f27e29ee000,97521c27-7cc9-4146-9bd1-3fbbb8630454,160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Never,Once a month,2 or 3 times a month,Once or twice a week,3 or 4 times a week,Nearly everyday,Daily" />
+                    </div>
+                    <div class="col-md-2">Other Drug Addiction <span style="color:red">*</span><span id="otherDrugIdAddictionSpan" style="color:red; display:none;"> Required</span>
+                        <obs id="otherDrugIdAddiction" conceptId="ba8a5615-4ca0-4c3c-8699-caa678473d11" style="yes_no" class="single-line">
+                            <controls><when value="true" thenDisplay=".otherDrugIdAddictionYesSection" /></controls>
+                        </obs>
+                    </div></div>
+                    <div class="otherDrugIdAddictionYesSection">
+                        <div class="row">
+                            <div class="col-md-9">Stage of Change <obs conceptId="271273dc-09dc-497c-ba92-f1507b43915e" style="radio" class="single-line" /></div>
+                            <div class="col-md-3">Current management <obs conceptId="580333fb-1cd6-482c-9f05-fc5078a37d4c" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="col-md-6">Progress Note <obs conceptId="26a10d02-c557-4488-b2f0-9550bc8454ab" style="textarea" rows="3" /></div>
+            </div>
+        </div>
+    </section> <hr/>
+
+    <section headerLabel="Laboratory"> <hr/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    Hemoglobin<div class="single-line">
+                        <obs id="hemoDateId" conceptId="f9d599bb-30f5-45ff-8ecd-350f8d670b6a" labelText="Date done" />
+                        <obs id="hemoResultId" conceptId="b2a3372d-e2ed-416c-9da4-2254c62a3805" labelText="Results (g/dL)" />
+                    </div> <br/>
+                    Viral Load<div class="single-line">
+                        <obs id="viralDateId" conceptId="5a5e37d0-533e-4815-b1bc-871e63e3f1a0" labelText="Date done" />
+                        <obs id="viralResultId" conceptId="9b745695-19c9-4a06-8ebe-a7ef1a86da5b" labelText="Results (copies/mL)" />
+                    </div> <br/>
+                    CD4<div class="single-line">
+                        <obs id="cd4DateId" conceptId="1a676457-49bc-4395-9b1f-4158132cd905" labelText="Date done" />
+                        <obs id="cd4ResultId" conceptId="19b9949f-14c7-40ed-90cc-1e4f4228f3a6" labelText="Results (cells/µL)" />
+                    </div> <br/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    Serum creatinine<div class="single-line">
+                        <obs id="serumDateId" conceptId="489037d9-ecac-47e8-ae20-28530436e79d" labelText="Date done" />
+                        <obs id="serumResultId" conceptId="165836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="Results (mg/dL)" />
+                        <obs id="serumClearanceId" conceptId="165839AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="Clearance (mL/min)" />
+                    </div> <br/>
+                    HBsAg<div class="single-line">
+                        <obs id="hbsagDateId" conceptId="b1192aeb-605c-4928-ac43-ce4dce194d8d" labelText="Date done" />
+                        <div id="hbsagReactivityId"><div>Reactivity</div>
+                            <obs conceptId="f7abb2a7-e82a-4cf4-b08d-ee191e1fa95e" style="radio" class="single-line" />
+                    </div></div> <br/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Chest X-Ray<div class="single-line">
+                    <obs id="xRayDateId" conceptId="2146b98c-33d2-438c-8c34-a7e7da9ce8f6" labelText="Date done" />
+                    <obs id="xRayResultId" conceptId="143d9fcb-e3a1-49b3-9202-ecc7e274d43c" labelText="Results" />
+                </div> <br/>
+                    Gene Xpert<div class="single-line">
+                    <obs id="geneDateId" conceptId="22b5c770-d266-4617-b838-31c9a642eb02" labelText="Date done" />
+                    <obs id="geneResultId" conceptId="2f717a7c-3e02-4316-ac5d-93bf16cef96a" labelText="Results" />
+                </div> <br/>
+                    DSSM/DST<div class="single-line">
+                    <obs id="dstDateId" conceptId="43257163-de7d-4180-886d-0a08825460ac" labelText="Date done" />
+                    <obs id="dstResultId" conceptId="5c07c2a6-2309-4bee-8b31-9ed56837fe39" labelText="Results" />
+                </div> <br/>
+                    HIVDR and Genotype<div class="single-line">
+                    <obs id="hivDateId" conceptId="8eb1a832-dab7-4fe7-92fc-b8aa54f1bfff" labelText="Date done" />
+                    <obs id="hivResultId" conceptId="5695edef-c92f-4715-8a95-bd6feb6ffac3" labelText="Results" />
+                </div>
+                </div>
+            </div> <br/>
+        </div>
+    </section>
+
+    <div id="buttons">
+        <submit id="submitId" submitClass="confirm right" submitCode="general.save" />
+        <button type="button" class="cancel"><uimessage code="general.cancel" /></button>
+    </div>
+
+    <script type="text/javascript">
+        var medicationList = [], isMedicationDataEmpty = true,
+            detailsSection1List = [], isDetailsSection1DataEmpty = true,
+            detailsSection2List = [], isDetailsSection2DataEmpty = true,
+            detailsSection3List = [], isDetailsSection3DataEmpty = true;
+
+        jQuery(document).ready(function() {
+            // Previous Consultation date
+            let previousVisitSpanArray = jQuery('#previousVisitSpanId').text().trim().split('|');
+            if (previousVisitSpanArray[6]) {
+                setValue('previousConsultationId.value', previousVisitSpanArray[6]);
+            }
+
+            // Pill Count changes
+            assignValuesToPillCountSection();
+
+            // sync 'In a relationship?' between HIV intake and Medical visit note
+            var inARelHivIntakeValue = jQuery('#inARelHivIntakeSpanId').text().trim();
+            if (inARelHivIntakeValue != '||') {
+                var relationshipValuesArray = inARelHivIntakeValue.split('|');
+                if (relationshipValuesArray[0]) {
+                    if (relationshipValuesArray[0] == '1065') {
+                        jQuery('.inARelDetailsSection').show();
+                    } else {
+                        jQuery('.inARelDetailsSection').hide();
+                    }
+                    jQuery('span[id=inARelationshipId] input:radio[value='+relationshipValuesArray[0]+']').prop('checked', true);
+                }
+                if (relationshipValuesArray[1]) {
+                    jQuery('span[id=disclosureStatusId] input:radio[value='+relationshipValuesArray[1]+']').prop('checked', true);
+                }
+                if (relationshipValuesArray[2]) {
+                    jQuery('span[id=serodiscordanceId] input:radio[value='+relationshipValuesArray[2]+']').prop('checked', true);
+                }
+            } else {
+                jQuery('.inARelDetailsSection').hide();
+                jQuery('span[id=inARelationshipId] input:radio').prop('checked', false);
+                jQuery('span[id=disclosureStatusId] input:radio').prop('checked', false);
+                jQuery('span[id=serodiscordanceId] input:radio').prop('checked', false);
+            }
+
+            // Add/Remove medication - start
+            function concatenateMedicationDetails(i) {
+                return getValue(i+'-orderId.value') + '|' + getValue(i+'-reviewOfMedicationId.value') + '|' +
+                        getValue(i+'-medicationStartDateId.value') + '|' + getValue(i+'-medicationStartDateEstId.value') + '|' +
+                        getValue(i+'-medicationEndDateId.value');
+            }
+            function removeMedication(arr,item) { return arr.filter(f => f !== item); }
+            for (let i=1; getValue(i+'-orderId.value') &amp;&amp; i &lt; $maxNumOfMedicationEntry+1; i++) {
+                medicationList.push(concatenateMedicationDetails(i));
+            }
+            // Sort the medication list to display in order
+            medicationList.sort(function(a,b) { return (a.split('|')[0] - b.split('|')[0]); });
+            // Showing the container in edit mode if data is present
+            for (let i=1; getValue(i+'-orderId.value') &amp;&amp; i &lt; $maxNumOfMedicationEntry+1; i++) {
+                // order of medication - start
+                var medicationArray = medicationList[i-1].split('|');
+
+                if (null != medicationArray[0]) { setValue(i+'-orderId.value', medicationArray[0]); }
+                if (null != medicationArray[1]) { setValue(i+'-reviewOfMedicationId.value', medicationArray[1]); }
+                if (null != medicationArray[2]) { setValue(i+'-medicationStartDateId.value', medicationArray[2]); }
+                if (null != medicationArray[3]) { setValue(i+'-medicationStartDateEstId.value', medicationArray[3]); }
+                if (null != medicationArray[4]) { setValue(i+'-medicationEndDateId.value', medicationArray[4]); }
+                medicationArray = "";
+                // order of medication - end
+
+                jQuery('#'+i+'-toggleContainer').show();
+
+                // show current Add Medication button
+                if (i == 1) { jQuery('#1-addEntry').show(); }
+                else if (i > 1) {
+                    let tempId = i - 1;
+                    // hide the previous Add Medication button
+                    jQuery('#'+tempId+'-addEntry').hide();
+                }
+                // hide the last Add Medication button
+                if (i == $maxNumOfMedicationEntry) { jQuery('#'+i+'-addEntry').hide(); }
+
+                isMedicationDataEmpty = false;
+            }
+            if (isMedicationDataEmpty) {
+                jQuery('#1-toggleContainer').show();
+                setValue('1-orderId.value',1);
+            }
+            jQuery('button.addEntry').click(function() {
+                let currentId = parseFloat(this.id);
+                let nextId = currentId + 1;
+
+                let tempOrderId = nextId + '-orderId.value';
+                setValue(tempOrderId, nextId);
+
+                let tempAddEntryId = "#" + currentId + "-addEntry";
+                jQuery(tempAddEntryId).hide();
+
+                let tempToggleContainerId = "#" + nextId + "-toggleContainer";
+                jQuery(tempToggleContainerId).show();
+
+                if (currentId == ($maxNumOfMedicationEntry - 1)) {
+                    let lastAddEntryId = '#' + $maxNumOfMedicationEntry + '-addEntry';
+                    jQuery(lastAddEntryId).hide();
+                }
+
+                return false;
+            });
+            jQuery('button.removeEntry').click(function() {
+                let currentId = parseFloat(this.id);
+                let previousId = currentId - 1;
+
+                // remove element from medicationList
+                medicationList = removeMedication(medicationList, concatenateMedicationDetails(currentId));
+
+                let currentToggleContainerId = "#" + currentId + "-toggleContainer";
+                jQuery(currentToggleContainerId).hide();
+                jQuery(':input:not(:button)', currentToggleContainerId).val([]);
+
+                // show previous add entry button if we remove current medication
+                let tempAddEntryId = "#" + currentId + "-addEntry";
+                if (jQuery(tempAddEntryId).css('display') != 'none') {
+                    let previousAddEntryId = "#" + previousId + "-addEntry";
+                    jQuery(previousAddEntryId).show();
+                }
+
+                return false;
+            });
+            // Add/Remove medication - end
+
+            // Common functions in Admission/ER Temporary stay/Outpatient visit Details section - start
+            function concatenateDetailsSection(i,n) {
+                return getValue(i+'-section'+n+'OrderId.value') + '|' + getValue(i+'-section'+n+'DetailsId.value');
+            }
+            function addRemoveDetails(n,detailsSectionList) {
+                // Showing the container in edit mode if data is present
+                for (let i=1; getValue(i+'-section'+n+'OrderId.value') &amp;&amp; i &lt; $maxNumOfDetailsEntry+1; i++) {
+                    let detailsSectionArray = detailsSectionList[i-1].split('|');
+                    if (null != detailsSectionArray[0]) { setValue(i+'-section'+n+'OrderId.value',detailsSectionArray[0]); }
+                    if (null != detailsSectionArray[1]) { setValue(i+'-section'+n+'DetailsId.value',detailsSectionArray[1]); }
+                    detailsSectionArray = "";
+
+                    jQuery('#'+i+'-toggleDetailsSection'+n).show();
+
+                    // show current Add Medication button
+                    if (i == 1) { jQuery('#1-section'+n+'DetailsAddId').show(); }
+                    else if (i > 1) {
+                        let tempId = i - 1;
+                        // hide the previous Add Medication button
+                        jQuery('#'+tempId+'-section'+n+'DetailsAddId').hide();
+                    }
+                    // hide the last Add Medication button
+                    if (i == $maxNumOfDetailsEntry) { jQuery('#'+i+'-section'+n+'DetailsAddId').hide(); }
+
+                    if (n == 1) { isDetailsSection1DataEmpty = false; }
+                    if (n == 2) { isDetailsSection2DataEmpty = false; }
+                    if (n == 3) { isDetailsSection3DataEmpty = false; }
+                }
+            }
+            // Common functions in Admission/ER Temporary stay/Outpatient visit Details section - end
+
+            // Add/Remove Admission(section1) Details section - start
+            for (let i=1; getValue(i+'-section1OrderId.value') &amp;&amp; i &lt; $maxNumOfDetailsEntry+1; i++) {
+                detailsSection1List.push(concatenateDetailsSection(i,1));
+            }
+            // Sort the list to display in order
+            detailsSection1List.sort(function(a,b) { return (a.split('|')[0] - b.split('|')[0]); });
+            addRemoveDetails(1, detailsSection1List); // 1 means Admission(section1)
+            jQuery('button.addDetailsSection1').click(function() {
+                let currentId = parseFloat(this.id);
+                let nextId = currentId + 1;
+
+                let tempOrderId = nextId + '-section1OrderId.value';
+                setValue(tempOrderId, nextId);
+
+                let tempAddEntryId = '#' + currentId + '-section1DetailsAddId';
+                jQuery(tempAddEntryId).hide();
+
+                let tempToggleContainerId = '#' + nextId + '-toggleDetailsSection1';
+                jQuery(tempToggleContainerId).show();
+
+                if (currentId == ($maxNumOfDetailsEntry - 1)) {
+                    let lastAddEntryId = '#' + $maxNumOfDetailsEntry + '-section1DetailsAddId';
+                    jQuery(lastAddEntryId).hide();
+                }
+
+                return false;
+            });
+            jQuery('button.removeDetailsSection1').click(function() {
+                let currentId = parseFloat(this.id);
+                let previousId = currentId - 1;
+
+                // remove element from list
+                detailsSection1List = removeMedication(detailsSection1List, concatenateDetailsSection(currentId, 1));
+
+                let currentToggleContainerId = "#" + currentId + "-toggleDetailsSection1";
+                jQuery(currentToggleContainerId).hide();
+                jQuery(':input:not(:button)', currentToggleContainerId).val([]);
+
+                // show previous add entry button if we remove current item
+                let tempAddEntryId = "#" + currentId + "-section1DetailsAddId";
+                if (jQuery(tempAddEntryId).css('display') != 'none') {
+                    let previousAddEntryId = "#" + previousId + "-section1DetailsAddId";
+                    jQuery(previousAddEntryId).show();
+                }
+
+                return false;
+            });
+            // Add/Remove Admission(section1) Details section - end
+
+            // Add/Remove ER Temporary stay(section2) Details section - start
+            for (let i=1; getValue(i+'-section2OrderId.value') &amp;&amp; i &lt; $maxNumOfDetailsEntry+1; i++) {
+                detailsSection2List.push(concatenateDetailsSection(i,2));
+            }
+            // Sort the list to display in order
+            detailsSection2List.sort(function(a,b) { return (a.split('|')[0] - b.split('|')[0]); });
+            addRemoveDetails(2, detailsSection2List); // 2 means ER Temporary stay(section2)
+            jQuery('button.addDetailsSection2').click(function() {
+                let currentId = parseFloat(this.id);
+                let nextId = currentId + 1;
+
+                let tempOrderId = nextId + '-section2OrderId.value';
+                setValue(tempOrderId, nextId);
+
+                let tempAddEntryId = "#" + currentId + "-section2DetailsAddId";
+                jQuery(tempAddEntryId).hide();
+
+                let tempToggleContainerId = "#" + nextId + "-toggleDetailsSection2";
+                jQuery(tempToggleContainerId).show();
+
+                if (currentId == ($maxNumOfDetailsEntry - 1)) {
+                    let lastAddEntryId = '#' + $maxNumOfDetailsEntry + '-section2DetailsAddId';
+                    jQuery(lastAddEntryId).hide();
+                }
+
+                return false;
+            });
+            jQuery('button.removeDetailsSection2').click(function() {
+                let currentId = parseFloat(this.id);
+                let previousId = currentId - 1;
+
+                // remove element from list
+                detailsSection2List = removeMedication(detailsSection2List, concatenateDetailsSection(currentId, 2));
+
+                let currentToggleContainerId = "#" + currentId + "-toggleDetailsSection2";
+                jQuery(currentToggleContainerId).hide();
+                jQuery(':input:not(:button)', currentToggleContainerId).val([]);
+
+                // show previous add entry button if we remove current item
+                let tempAddEntryId = "#" + currentId + "-section2DetailsAddId";
+                if (jQuery(tempAddEntryId).css('display') != 'none') {
+                    let previousAddEntryId = "#" + previousId + "-section2DetailsAddId";
+                    jQuery(previousAddEntryId).show();
+                }
+
+                return false;
+            });
+            // Add/Remove ER Temporary stay(section2) Details section - end
+
+            // Add/Remove Outpatient visit(section3) Details section - start
+            for (let i=1; getValue(i+'-section3OrderId.value') &amp;&amp; i &lt; $maxNumOfDetailsEntry+1; i++) {
+                detailsSection3List.push(concatenateDetailsSection(i,3));
+            }
+            // Sort the list to display in order
+            detailsSection3List.sort(function(a, b) { return (a.split('|')[0] - b.split('|')[0]); });
+            addRemoveDetails(3, detailsSection3List); // 3 means Outpatient visit(section3)
+            jQuery('button.addDetailsSection3').click(function() {
+                let currentId = parseFloat(this.id);
+                let nextId = currentId + 1;
+
+                let tempOrderId = nextId + '-section3OrderId.value';
+                setValue(tempOrderId, nextId);
+
+                let tempAddEntryId = "#" + currentId + "-section3DetailsAddId";
+                jQuery(tempAddEntryId).hide();
+
+                let tempToggleContainerId = "#" + nextId + "-toggleDetailsSection3";
+                jQuery(tempToggleContainerId).show();
+
+                if (currentId == ($maxNumOfDetailsEntry - 1)) {
+                    let lastAddEntryId = '#' + $maxNumOfDetailsEntry + '-section3DetailsAddId';
+                    jQuery(lastAddEntryId).hide();
+                }
+
+                return false;
+            });
+            jQuery('button.removeDetailsSection3').click(function() {
+                let currentId = parseFloat(this.id);
+                let previousId = currentId - 1;
+
+                // remove element from list
+                detailsSection3List = removeMedication(detailsSection3List, concatenateDetailsSection(currentId, 3));
+
+                let currentToggleContainerId = "#" + currentId + "-toggleDetailsSection3";
+                jQuery(currentToggleContainerId).hide();
+                jQuery(':input:not(:button)', currentToggleContainerId).val([]);
+
+                // show previous add entry button if we remove current item
+                let tempAddEntryId = "#" + currentId + "-section3DetailsAddId";
+                if (jQuery(tempAddEntryId).css('display') != 'none') {
+                    let previousAddEntryId = "#" + previousId + "-section3DetailsAddId";
+                    jQuery(previousAddEntryId).show();
+                }
+
+                return false;
+            });
+            // Add/Remove Outpatient visit(section3) Details section - end
+
+            if (isDetailsSection1DataEmpty) { jQuery('#1-toggleDetailsSection1').show();setValue('1-section1OrderId.value',1); }
+            if (isDetailsSection2DataEmpty) { jQuery('#1-toggleDetailsSection2').show();setValue('1-section2OrderId.value',1); }
+            if (isDetailsSection3DataEmpty) { jQuery('#1-toggleDetailsSection3').show();setValue('1-section3OrderId.value',1); }
+
+            // Support System changes
+            assignValuesToSupportSystems();
+
+            // Calculate BMI
+            const calculateBmi = function(wt,ht) {
+                let bmi = null;
+                if (wt &amp;&amp; ht) {
+                    bmi = wt / ((ht / 100) * (ht / 100));
+                }
+                return bmi;
+            }
+            const updateBmi = function() {
+                const wt = htmlForm.getValueIfLegal('weight.value');
+                const ht = htmlForm.getValueIfLegal('height.value');
+
+                const bmi = calculateBmi(wt,ht);
+
+                if (bmi == null || isNaN(bmi)) {
+                    jQuery('#calculated-bmi-wrapper').hide();
+                } else {
+                    jQuery('#no-calculated-bmi').hide();
+                    jQuery('#calculated-bmi-wrapper').show();
+                    jQuery('#calculated-bmi').html(bmi.toFixed(1));
+                }
+            };
+            const attachBmiHandler = function() {
+                jQuery(function() {
+                    jQuery('#calculated-bmi-wrapper').hide();
+                    getField('weight.value').change(updateBmi);
+                    getField('height.value').change(updateBmi);
+                    updateBmi();
+                });
+                jQuery(function() {
+                    jQuery('#bp_systolic input[type=text]').attr('min', '50');
+                });
+                jQuery(function() {
+                    jQuery('#bp_diastolic input[type=text]').attr('min', '30');
+                });
+            }
+
+            attachBmiHandler();
+            // set size
+            jQuery('#height input[type=text],#weight input[type=text],#temperature input[type=text],#heart_rate input[type=text]')
+                .css('z-index','1');
+            jQuery('#respiratory_rate input[type=text],#o2_sat input[type=text]')
+                .css('z-index','1');
+            jQuery('#height .error,#weight .error,#temperature .error,#heart_rate .error')
+                .css('padding-top', '30px').css('position','absolute').css('z-index','0');
+            jQuery('#respiratory_rate .error,#o2_sat .error')
+                .css('padding-top', '30px').css('position','absolute').css('z-index','0');
+
+            // Opportunistic infections changes
+            toggleCommentField('oppInfectOthersId.value');
+
+            // Vaccination changes
+            // set size of VaccineUsed and Provider
+            jQuery("#firstDoseVaccineUsedId,#firstDoseProviderId").css('margin-left','10px');
+            jQuery("#firstDoseVaccineUsedId,#firstDoseProviderId").attr('size','15');
+            jQuery("#secondDoseVaccineUsedId,#secondDoseProviderId").css('margin-left','10px');
+            jQuery("#secondDoseVaccineUsedId,#secondDoseProviderId").attr('size','15');
+            // set size of lot input box
+            jQuery("span[id$='-lotId']").each(function() {
+                jQuery(this).css('margin-left','10px');
+                jQuery(this).children().attr('size','15');
+            });
+
+            // Drug history
+            toggleCommentField('otherDrugId.value');
+
+            // Laboratory changes
+            jQuery("span[id$='ResultId'],span[id='serumClearanceId']").each(function() {
+                jQuery(this).css('margin-left','10px');
+                jQuery(this).children().attr('size','15');
+            });
+            jQuery("#hbsagReactivityId").css('margin-left','10px');
+        });
+
+        jQuery(function() {
+            // Opportunistic infections changes
+            getField('oppInfectOthersId.value').change(function() {toggleCommentField('oppInfectOthersId.value');});
+
+            // Physical Examination changes
+            getField('peGeneralId.value').change(function() {setNotDoneAsDefault('peGeneralId');});
+            getField('peHeentId.value').change(function() {setNotDoneAsDefault('peHeentId');});
+            getField('peCardiovascularId.value').change(function() {setNotDoneAsDefault('peCardiovascularId');});
+            getField('peRespiratoryId.value').change(function() {setNotDoneAsDefault('peRespiratoryId');});
+            getField('peGastrointestinalId.value').change(function() {setNotDoneAsDefault('peGastrointestinalId');});
+            getField('peGenitourinaryId.value').change(function() {setNotDoneAsDefault('peGenitourinaryId');});
+            getField('peReproductiveId.value').change(function() {setNotDoneAsDefault('peReproductiveId');});
+            getField('peMusculoskeletalId.value').change(function() {setNotDoneAsDefault('peMusculoskeletalId');});
+            getField('peNeurologyId.value').change(function() {setNotDoneAsDefault('peNeurologyId');});
+            getField('peDermatologyId.value').change(function() {setNotDoneAsDefault('peDermatologyId');});
+            getField('peHematologyId.value').change(function() {setNotDoneAsDefault('peHematologyId');});
+
+            // Drug history changes
+            getField('otherDrugId.value').change(function() {toggleCommentField('otherDrugId.value');});
+        });
+
+        function setNotDoneAsDefault(id) {
+            let peChecked = getField(id+'.value').prop("checked");
+            if (peChecked == true) {
+                jQuery('span[id='+id+'-OptId] input:radio[value='+$notDoneConceptId+']').prop('checked', true);
+            }
+        }
+
+        function toggleCommentField(id) {
+            let checked = getField(id).prop("checked");
+            if (checked == true) {
+                getField(id + '_2').show();
+            } else {
+                getField(id + '_2').hide();
+            }
+        }
+
+        function assignValuesToPillCountSection() {
+            let medicineRefillValues = jQuery('#amtOfMedicationRefSpanId').text().trim();
+            getField('pillCountLastVisitId.value').prop('disabled', true);
+            jQuery('#pillCountLastVisitId').children().css('background-color','#f0f0f0');
+            getField('pillCountDateOfRefillId.value').prop('disabled', true);
+            jQuery('#pillCountDateOfRefillId').children().css('background-color','#f0f0f0');
+
+            if (medicineRefillValues != '|') {
+                let medicineRefillValuesArray = medicineRefillValues.split('|');
+                let pillCountLastVisit = medicineRefillValuesArray[0],
+                    dateOfRefillLastVisit = medicineRefillValuesArray[1];
+                if (pillCountLastVisit) {
+                    setValue('pillCountLastVisitId.value', pillCountLastVisit);
+                }
+                if (dateOfRefillLastVisit) {
+                    setValue('pillCountDateOfRefillId.value', dateOfRefillLastVisit);
+                }
+                // Calculate current pill count
+                // assuming pillsPerDay=1 (TODO-need to fetch)
+                const today = new Date();
+                const pillsPerDay = 5;
+                const month = today.getMonth() + 1;
+                const formattedDateToday = today.getFullYear() + '-'+month+'-'+today.getDate();
+                const daysInDiff = compareDate(dateOfRefillLastVisit.split(" ")[0], formattedDateToday);
+                setValue('pillCountEstimatedId.value', pillCountLastVisit - (daysInDiff * pillsPerDay));
+            }
+        }
+
+        function compareDate(d1,d2) {
+            const date1 = new Date(d1);
+            const date2 = new Date(d2);
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.round((date2.getTime() - date1.getTime()) / oneDay);
+        }
+
+        function assignValuesToSupportSystems() {
+            let ssCheckedValueArray = jQuery('#previousVisitSpanId').text().trim();
+            if (ssCheckedValueArray.includes('Partner')) { getField('ssPartnerId.value').prop('checked', true); }
+            if (ssCheckedValueArray.includes('Friend(s)')) { getField('ssFriendId.value').prop('checked', true); }
+            if (ssCheckedValueArray.includes('Family member')) { getField('ssFamilyId.value').prop('checked', true); }
+            if (ssCheckedValueArray.includes('Workplace')) { getField('ssWorkplaceId.value').prop('checked', true); }
+            if (ssCheckedValueArray.includes('Public')) { getField('ssPublicId.value').prop('checked', true); }
+        }
+
+        beforeSubmit.push(function() {
+            // Reassign the orderId if medication deleted
+            let j=1;
+            for (c of medicationList) {
+                let tempOrderId = c.split('|',1);
+                setValue(tempOrderId+'-orderId.value', j);
+                j++;
+            }
+
+            // Reassign the orderId if details are removed
+            reassignTheOrder(1,detailsSection1List);
+            reassignTheOrder(2,detailsSection2List);
+            reassignTheOrder(3,detailsSection3List);
+
+            return validateFieldsAndSubmit();
+        });
+
+        function reassignTheOrder(n,detailsSectionList) {
+            // Reassign the orderId if details are removed
+            let j1=1;
+            for (d of detailsSectionList) {
+                let tempOrderId = d.split('|',1);
+                setValue(tempOrderId+'-section'+n+'OrderId.value', j1);
+                j1++;
+            }
+        }
+
+        function validateFieldsAndSubmit() {
+            // Review of Medication validations
+            for (let i=1; getValue(i+'-orderId.value') &amp;&amp; i &lt; $maxNumOfMedicationEntry+1; i++) {
+                let reviewOfMedicationValue = getValue(i+'-reviewOfMedicationId.value'),
+                    medicationStartDateValue = getValue(i+'-medicationStartDateId.value');
+
+                if (reviewOfMedicationValue == null || reviewOfMedicationValue == '') {
+                    if (medicationStartDateValue == null || medicationStartDateValue == '') {
+                        return true;
+                    }
+                }
+                if (reviewOfMedicationValue != null || reviewOfMedicationValue != '') {
+                    if (medicationStartDateValue == null || medicationStartDateValue == '') {
+                        getField(i+'-medicationStartDateId.error').html("Required").show();
+                        alert('Medication Start Date field is required');
+                        return false;
+                    }
+                }
+                if (medicationStartDateValue != null || medicationStartDateValue != '') {
+                    if (reviewOfMedicationValue == null || reviewOfMedicationValue == '') {
+                        getField(i+'-reviewOfMedicationId.error').html("Required").show();
+                        alert('Review of Medication field is required');
+                        return false;
+                    }
+                }
+            }
+
+            // Drug history validations
+            if (getValue('drugHistoryId.value') == 1065) {
+                if (isDrugHistorySpecifyUncheck()) {
+                    alert('Please select at least one durg');
+                    return false;
+                }
+                if (!validateFreqAndAddictionFields('mapSmokeId','MAP smoke')) { return false; }
+                if (!validateFreqAndAddictionFields('mapInjectedId','MAP Injected')) { return false; }
+                if (!validateFreqAndAddictionFields('mapMucosalId','MAP Mucosal')) { return false; }
+                if (!validateFreqAndAddictionFields('ecstasyId','Ecstasy')) { return false; }
+                if (!validateFreqAndAddictionFields('ghbId','GHB')) { return false; }
+                if (!validateFreqAndAddictionFields('cocaineId','Cocaine')) { return false; }
+                if (!validateFreqAndAddictionFields('marijuanaId','Marijuana')) { return false; }
+                if (!validateFreqAndAddictionFields('poppersId','Poppers')) { return false; }
+                if (!validateFreqAndAddictionFields('ketamineId','Ketamine')) { return false; }
+                if (!validateFreqAndAddictionFields('acidId','Acid')) { return false; }
+                if (!validateFreqAndAddictionFields('valiumId','Valium')) { return false; }
+                if (!validateFreqAndAddictionFields('opioidsId','Opioids')) { return false; }
+                if (!validateFreqAndAddictionFields('heroinId','Heroin')) { return false; }
+                if (!validateFreqAndAddictionFields('otherDrugId','Other Drug')) { return false; }
+            }
+            return true;
+        }
+
+        function validateFreqAndAddictionFields(id,message) {
+            if (getValue(id+'.value')) {
+                if (getValue(id+'Freq.value') == null || getValue(id+'Freq.value') == '') {
+                    jQuery('#'+id+'FreqSpan').css('display','contents');
+                    alert(message+' frequency field is required');
+                    return false;
+                }
+                if (getValue(id+'Addiction.value') == null || getValue(id+'Addiction.value') == '') {
+                    jQuery('#'+id+'AddictionSpan').css('display','contents');
+                    alert(message+' Addiction field is required');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function isDrugHistorySpecifyUncheck() {
+            return getValue('mapSmokeId.value') == null &amp;&amp; getValue('mapInjectedId.value') == null &amp;&amp;
+                    getValue('mapMucosalId.value') == null &amp;&amp; getValue('ecstasyId.value') == null &amp;&amp;
+                    getValue('ghbId.value') == null &amp;&amp; getValue('cocaineId.value') == null &amp;&amp;
+                    getValue('marijuanaId.value') == null &amp;&amp; getValue('poppersId.value') == null &amp;&amp;
+                    getValue('ketamineId.value') == null &amp;&amp; getValue('acidId.value') == null &amp;&amp;
+                    getValue('valiumId.value') == null &amp;&amp; getValue('opioidsId.value') == null &amp;&amp;
+                    getValue('heroinId.value') == null &amp;&amp; getValue('otherDrugId.value') == null;
+        }
+    </script>
+
+</htmlform>
